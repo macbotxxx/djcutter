@@ -2,6 +2,8 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 import secrets
 
+from .paystack import PayStack
+
 class Payment (models.Model):
     """
     payment data stored and their ref.
@@ -13,7 +15,7 @@ class Payment (models.Model):
         )
     ref = models.CharField(
         verbose_name = _('Payment Reference Number'),
-        max_length = 50,
+        max_length = 500,
         null=True,
         help_text = _('Reference number of the the above payment')
         )
@@ -44,7 +46,7 @@ class Payment (models.Model):
     def save(self, *args, **kwargs) -> None:
         while not self.ref:
             ref = secrets.token_urlsafe(50)
-            object_with_similar_ref = Payment.object.filter(ref=ref)
+            object_with_similar_ref = Payment.objects.filter(ref=ref)
             if not object_with_similar_ref:
                 self.ref = ref
         super().save(*args, **kwargs)
@@ -52,9 +54,20 @@ class Payment (models.Model):
     def amount_value(self) -> int:
         return self.amount * 100 
 
+    def verify_payment(self):
+        paystack = PayStack()
+        status, result = paystack.verify_payment(self.ref, self.amount)
+        if status:
+            if result['amount'] / 100 == self.amount:
+                self.verified = True
+            self.save()
+            if self.verified:
+                return True
+            return False 
+
     #Methods
     # def get_absolute_url(self):
     #     return reverse('url', args=[args])
 
     def __str__(self):
-        return self.amount
+        return str(self.amount)

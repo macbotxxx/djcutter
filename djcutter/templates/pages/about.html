@@ -1,1 +1,91 @@
 {% extends "base.html" %}
+
+
+
+{% block content %}
+<h5>Make Payment for : NG {{payment.amount}}</h5>
+
+    <button type="submit" onclick="payWithPaystack()" class="btn btn-secondary " id="paymentForm" >Make payment</button>
+
+<!-- 
+<script>
+    function payWithPaystack(){
+        var handler = PaystackPop.setup(obj);
+
+        let currency = "NGN";
+        let plan = "";
+        let ref = " {{ payment.ref }} ";
+        let obj = { 
+            key: " {{ paystack_public_key }} ",
+            email: "{{ payment.email }}",
+            amount = " {{ payment.amount_value }} ",
+            ref:ref,
+
+            callback: fucntion(response){
+                window.location.href="{% url 'verify-payment' payment.ref %}";
+            }
+
+        }
+
+        if (Boolean(currency)) {
+            obj.currency = currency.toUpperCase()
+        }
+        if (Boolean(plan) {
+            obj.plan = plan;
+        }
+
+        handler.openIframe();
+
+    }
+</script> -->
+
+<script>
+ 
+function payWithPaystack() {
+
+  var handler = PaystackPop.setup({
+
+    key: "{{ paystack_public_key }}" , 
+
+    email:  "{{ payment.email }}",
+
+    amount: amount = "{{ payment.amount_value }}", // the amount value is multiplied by 100 to convert to the lowest currency unit
+
+    currency: 'NGN', // Use GHS for Ghana Cedis or USD for US Dollars
+
+    ref : "{{ payment.ref }}", // Replace with a reference you generated
+
+    callback: function(response) {
+        window.location.href="{% url 'verify-payment' payment.ref %}";
+
+    //this happens after the payment is completed successfully
+
+    //   var reference = response.reference;
+
+    //   alert('Payment complete! Reference: ' + reference);
+
+      // Make an AJAX call to your server with the reference to verify the transaction
+
+    },
+
+    onClose: function() {
+
+      alert('Transaction was not completed, window closed.');
+
+    },
+
+  });
+
+//   if (Boolean(currency)) {
+//             obj.currency = currency.toUpperCase()
+//         }
+//     if (Boolean(plan) {
+//         obj.plan = plan;
+//     }
+
+  handler.openIframe();
+
+}    
+</script>
+
+{% endblock %}  
