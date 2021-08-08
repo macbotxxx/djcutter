@@ -1,5 +1,6 @@
 from .base import *  # noqa
 from .base import env
+import os
 
 # GENERAL
 # ------------------------------------------------------------------------------
@@ -58,3 +59,6 @@ INSTALLED_APPS += ["django_extensions"]  # noqa F405
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+# payments gateways private and public keys _______________________
+PAYSTACK_SECRET_KEY = env("PAY_STACK_SECRET_KEY")
+PAYSTACK_PUBLIC_KEY = env("PAY_STACK_PUBLIC_KEY")

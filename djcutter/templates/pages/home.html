@@ -1,1 +1,14 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+
+<form action="" method="post">
+    {%csrf_token %}
+    {{ payment_form | crispy }}
+    <br>
+    <button type="submit" class="btn btn-secondary ">Make payment</button>
+</form>
+
+{% endblock %}

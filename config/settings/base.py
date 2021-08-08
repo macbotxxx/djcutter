@@ -5,6 +5,8 @@ from pathlib import Path
 
 import environ
 import dotenv
+# from .base import env
+
 
 ROOT_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
 # djcutter/
@@ -91,6 +93,7 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "djcutter.users.apps.UsersConfig",
     # Your stuff: custom apps go here
+    "payment_gateway.apps.PaymentGatewayConfig",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -303,3 +306,6 @@ REST_FRAMEWORK = {
 CORS_URLS_REGEX = r"^/api/.*$"
 # Your stuff...
 # ------------------------------------------------------------------------------
+
+
+
