@@ -62,3 +62,6 @@ INSTALLED_APPS += ["django_extensions"]  # noqa F405
 # payments gateways private and public keys _______________________
 PAYSTACK_SECRET_KEY = env("PAY_STACK_SECRET_KEY")
 PAYSTACK_PUBLIC_KEY = env("PAY_STACK_PUBLIC_KEY")
+
+FLUTTERWAVE_SECRET_KEY = env("FLUTTERWAVE_SECRET_KEY")
+FLUTTERWAVE_PUBLIC_KEY = env("FLUTTERWAVE_PUBLIC_KEY")

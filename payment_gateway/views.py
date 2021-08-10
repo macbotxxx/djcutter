@@ -13,7 +13,8 @@ def initiate_payment(request: HttpRequest) -> HttpResponse:
             payment = payment_form.save()
             context = {
                 'payment':payment,
-                'paystack_public_key': settings.PAYSTACK_PUBLIC_KEY
+                'paystack_public_key': settings.PAYSTACK_PUBLIC_KEY,
+                'flutterwave_public_key': settings.FLUTTERWAVE_PUBLIC_KEY,
             }
             return render(request, 'pages/about.html', context)
     else:
@@ -25,7 +26,7 @@ def initiate_payment(request: HttpRequest) -> HttpResponse:
 
 
 def verify_payment (request: HttpRequest, ref: str) -> HttpResponse:
-    payment = Payment.objects.get(ref=ref)
+    payment = Payment.objects.filter(ref=ref)
     verified = payment.verify_payment()
     if verified:
         messages.success(request, 'payment verified')
