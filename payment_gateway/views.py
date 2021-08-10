@@ -25,7 +25,7 @@ def initiate_payment(request: HttpRequest) -> HttpResponse:
     return render(request, 'pages/home.html', context)
 
 
-def verify_payment (request: HttpRequest, ref: str) -> HttpResponse:
+def verify_paymentx (request, ref):
     payment = Payment.objects.filter(ref=ref)
     verified = payment.verify_payment()
     if verified:

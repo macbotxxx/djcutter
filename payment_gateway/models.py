@@ -59,16 +59,12 @@ class Payment (models.Model):
         flutterwave = FlutterWave()
         status, result = paystack.verify_payment(self.ref, self.amount)
         if status:
-            print(result)
             if result['amount'] / 100 == self.amount:
                 self.verified = True
             self.save()
             if self.verified:
                 return True
             return False 
-    #Methods
-    # def get_absolute_url(self):
-    #     return reverse('url', args=[args])
-
+   
     def __str__(self):
         return str(self.amount)
