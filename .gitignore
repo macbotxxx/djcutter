@@ -49,6 +49,7 @@ coverage.xml
 # Translations
 *.mo
 *.pot
+note.txt
 
 # Django stuff:
 staticfiles/

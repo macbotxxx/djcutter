@@ -2,7 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 import secrets
 
-from .payment_gateway import PayStack, FlutterWave
+from .payment_gateway import PayStack #FlutterWave
 
 class Payment (models.Model):
     """
@@ -45,7 +45,7 @@ class Payment (models.Model):
 
     def save(self, *args, **kwargs) -> None:
         while not self.ref:
-            ref = secrets.token_urlsafe(16)
+            ref = secrets.token_urlsafe(30)
             object_with_similar_ref = Payment.objects.filter(ref=ref)
             if not object_with_similar_ref:
                 self.ref = ref
@@ -56,7 +56,7 @@ class Payment (models.Model):
 
     def verify_payment(self):
         paystack = PayStack()
-        flutterwave = FlutterWave()
+        # flutterwave = FlutterWave()
         status, result = paystack.verify_payment(self.ref, self.amount)
         if status:
             if result['amount'] / 100 == self.amount:

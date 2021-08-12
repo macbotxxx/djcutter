@@ -25,8 +25,10 @@ def initiate_payment(request: HttpRequest) -> HttpResponse:
     return render(request, 'pages/home.html', context)
 
 
-def verify_paymentx (request, ref):
+def verify_payment (request, ref):
     payment = Payment.objects.filter(ref=ref)
+    # payment = get_object_or_404(Payment, ref=ref)
+    print(payment)
     verified = payment.verify_payment()
     if verified:
         messages.success(request, 'payment verified')
